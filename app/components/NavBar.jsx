@@ -231,7 +231,7 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-brand transition">
+              <Link href="/shop" className="hover:text-brand transition">
                 Shop
               </Link>
             </li>
