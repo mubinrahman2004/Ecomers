@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Registration = () => {
   const [userData, setUserData] = useState({
@@ -12,20 +13,28 @@ const Registration = () => {
   const handelSubmit = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   const response = await fetch("https://api.freeapi.app/api/v1/users/register", {
-    //   method: "GET ",
-    //   headers: {
-    //     accept: "application/json",
-    //     "content-type": "application/json",
-    //   },
-    //   body: '{"email":"user.email@domain.com","password":"test@123","role":"ADMIN","username":"doejohn"}',
-    // });
-    //   const data = await response.json();
-    //   console.log(data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      const response = await fetch(
+        "https://api.freeapi.app/api/v1/users/register",
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data.errors.length > 0) {
+        data.errors.forEach((error) => {
+          toast.error(data.errors[0]);
+        });}
+      toast.success(data.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
