@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const [userData, setUserData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const router = useRouter();
@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://api.freeapi.app/api/v1/users/login",
+        "https://eb-commerce-server.vercel.app/api/v1/auth/login",
         {
           method: "POST",
           headers: {
@@ -25,10 +25,9 @@ const Login = () => {
         }
       );
       const data = await response.json();
-      if (data.message === "User does not exist")
-        return toast.error(data.message);
-      toast.success(data.message);
-      document.cookie=`accessToken = ${data.data.accessToken}`;
+      toast.error(data.error );
+      toast.success(data.success);
+      document.cookie=`accessToken = ${data.accessToken}`;
       router.push("/");
     } catch (error) {
       console.log(error);
@@ -48,19 +47,19 @@ const Login = () => {
 
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  UserName
+                  Email
                 </label>
                 <input
                   onChange={(e) =>
                     setUserData((prev) => ({
                       ...prev,
-                      username: e.target.value,
+                      email: e.target.value,
                     }))
                   }
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
-                  placeholder="username"
-                  id="username"
-                  type="text"
+                  placeholder="text your email"
+                  id="email"
+                  type="email"
                   required
                 />
               </div>
