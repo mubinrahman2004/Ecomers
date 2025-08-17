@@ -1,9 +1,44 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const [userData, setUserData] = useState({
+    username: "",
+    password: "",
+  });
+  const router = useRouter();
+  const handelLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        "https://api.freeapi.app/api/v1/users/login",
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+      const data = await response.json();
+      if (data.message === "User does not exist")
+        return toast.error(data.message);
+      toast.success(data.message);
+      document.cookie=`accessToken = ${data.data.accessToken}`;
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <section className="h-screen flex items-center justify-center">
-      <form className="w-xl">
+      <form onSubmit={handelLogin} className="w-xl">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           <div className="w-full bg-white rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -13,13 +48,19 @@ const Login = () => {
 
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Email
+                  UserName
                 </label>
                 <input
+                  onChange={(e) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      username: e.target.value,
+                    }))
+                  }
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
-                  placeholder="user@gmail.com"
-                  id="email"
-                  type="email"
+                  placeholder="username"
+                  id="username"
+                  type="text"
                   required
                 />
               </div>
@@ -28,6 +69,12 @@ const Login = () => {
                   Password
                 </label>
                 <input
+                  onChange={(e) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
                   placeholder="••••••••"
                   id="password"
@@ -42,7 +89,8 @@ const Login = () => {
                 Login
               </button>
               <p>
-                Dont't have an account ?<Link href="/registration">Sign Up</Link>
+                Dont't have an account ?
+                <Link href="/registration">Sign Up</Link>
               </p>
             </div>
           </div>

@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaBox, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { IoCall, IoCloseCircleSharp } from "react-icons/io5";
@@ -7,11 +7,11 @@ import { FaBarsStaggered, FaPerson } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
 
-const NavBar = () => {
+const NavBar = ({userData=null}) => {
   const [show, setShow] = useState(false);
   const [sidebar, setSidebar] = useState(false);
-  const userData = false
-  const cartData = false
+  const cartData = false;
+
 
   return (
     <header className="relative shadow-sm  ">
@@ -25,7 +25,13 @@ const NavBar = () => {
             <FaBarsStaggered />
           </button>
           <Link href="/" className="w-32 inline-block lg:w-auto">
-            <Image src="/logo.png" width={128} height={50} alt="logo" className="w-32" />
+            <Image
+              src="/logo.png"
+              width={128}
+              height={50}
+              alt="logo"
+              className="w-32"
+            />
           </Link>
           <div className="border-2 border-brand p-2 lg:p-5 rounded w-full max-w-64  lg:max-w-[700px] hidden md:flex items-center">
             <select
@@ -33,9 +39,15 @@ const NavBar = () => {
               id=""
               className="pr-3.5 border-r-2 border-slate-200 text-primary hidden lg:block"
             >
-              <option className="text-base font-bold" value="">All Categories</option>
-              <option className="text-base font-bold" value="">Vage Tables</option>
-              <option className="text-base font-bold" value="">Fruites</option>
+              <option className="text-base font-bold" value="">
+                All Categories
+              </option>
+              <option className="text-base font-bold" value="">
+                Vage Tables
+              </option>
+              <option className="text-base font-bold" value="">
+                Fruites
+              </option>
             </select>
             <input
               type="text"
@@ -44,40 +56,42 @@ const NavBar = () => {
             />
             <FaSearch className="ml-auto" />
           </div>
-          {<div>
-            <ul className="flex items-center gap-4 lg:gap-8 text-sm">
-              <li>
-                <Link
-                  href="/cart"
-                  className="flex gap-2 items-end relative text-secondary"
-                >
-                  <span className="w-4 h-4 lg:w-6 lg:h-6 rounded-full bg-brand text-white text-xs md:text-sm flex items-center justify-center absolute -top-3 md:-top-2 -right-2 md:right-5">
-                   {cartData.length}
-                  </span>
-                  <FaShoppingCart className="text-2xl lg:text-3xl text-primary" />{" "}
-                  <span className="hidden md:block">Cart</span>
-                </Link>
-              </li>
-              <li>
-                {
-                  userData
-                  ?
-                  <>
-                   <div className="userImage overflow-hidden w-[30px] h-[30px]  rounded-full bg-gray-200">
-                     <Image width={24} height={50} src={userData?.avatar?.url} alt="user profile" />
-                    </div>
-                    <h2 className="text-[16px] font-medium text-black">{userData?.username}</h2>
-                  </>
-
-                  :
-                 
-                 <Link href="/login">
-                    <div className="flex items-center gap-2 text-2xl"><FaPerson/>  Login</div>
-                 </Link>
-                }
-              </li>
-            </ul>
-          </div> }
+          {
+            <div>
+              <ul className="flex items-center gap-4 lg:gap-8 text-sm">
+                <li>
+                  <Link
+                    href="/cart"
+                    className="flex gap-2 items-end relative text-secondary"
+                  >
+                    <span className="w-4 h-4 lg:w-6 lg:h-6 rounded-full bg-brand text-white text-xs md:text-sm flex items-center justify-center absolute -top-3 md:-top-2 -right-2 md:right-5">
+                      {cartData.length}
+                    </span>
+                    <FaShoppingCart className="text-2xl lg:text-3xl text-primary" />{" "}
+                    <span className="hidden md:block">Cart</span>
+                  </Link>
+                </li>
+                <li>
+                  {userData ? (
+                    <>
+                      <div className="userImage overflow-hidden m-auto w-12 h-12 flex items-center justify-center rounded-full bg-green-400">
+                       <p className="text-white text-xl font-bold ">{userData.firstName[0]}</p>
+                      </div>
+                      <h2 className="text-[16px] font-medium text-black flex gap-2">
+                        {userData?.firstName} {userData.lastName}
+                      </h2>
+                    </>
+                  ) : (
+                    <Link href="/login">
+                      <div className="flex items-center gap-2 text-2xl">
+                        <FaPerson /> Login
+                      </div>
+                    </Link>
+                  )}
+                </li>
+              </ul>
+            </div>
+          }
           {/* Main menu mobile view */}
           <nav
             className={`w-full h-screen bg-[rgba(0,0,0,0.6)] absolute top-0 left-0 transition-all z-50 ${
@@ -174,46 +188,68 @@ const NavBar = () => {
             {show && (
               <div className="bg-white w-md rounded-lg absolute top-10 xl:top-20 left-0 p-7 border-2 border-brand grid grid-cols-2 gap-6 z-50">
                 <div className="flex items-center gap-2 cursor-pointer shadow py-2 px-3">
-                  <Image width={24} height={50} src="/category-1.svg" alt="category-1" className="w-6" />
-                  <p className="font-bold text-sm text-primary">
-                    Fast Food
-                  </p>
+                  <Image
+                    width={24}
+                    height={50}
+                    src="/category-1.svg"
+                    alt="category-1"
+                    className="w-6"
+                  />
+                  <p className="font-bold text-sm text-primary">Fast Food</p>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer shadow py-2 px-3">
-                  <Image width={24} height={50} src="/category-1.svg" alt="category1" className="w-6" />
-                  <p className="font-bold text-sm text-primary">
-                    Fast Food
-                  </p>
+                  <Image
+                    width={24}
+                    height={50}
+                    src="/category-1.svg"
+                    alt="category1"
+                    className="w-6"
+                  />
+                  <p className="font-bold text-sm text-primary">Fast Food</p>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer shadow py-2 px-3">
-                  <Image width={24} height={50} src="/category-1.svg" alt="category1" className="w-6" />
-                  <p className="font-bold text-sm text-primary">
-                    Fast Food
-                  </p>
+                  <Image
+                    width={24}
+                    height={50}
+                    src="/category-1.svg"
+                    alt="category1"
+                    className="w-6"
+                  />
+                  <p className="font-bold text-sm text-primary">Fast Food</p>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer shadow py-2 px-3">
-                  <Image width={24} height={50} src="/category-1.svg" alt="category1" className="w-6" />
-                  <p className="font-bold text-sm text-primary">
-                   Fast Food
-                  </p>
+                  <Image
+                    width={24}
+                    height={50}
+                    src="/category-1.svg"
+                    alt="category1"
+                    className="w-6"
+                  />
+                  <p className="font-bold text-sm text-primary">Fast Food</p>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer shadow py-2 px-3">
-                  <Image width={24} height={50} src="/category-1.svg" alt="category1" className="w-6" />
-                  <p className="font-bold text-sm text-primary">
-                    Fast Food
-                  </p>
+                  <Image
+                    width={24}
+                    height={50}
+                    src="/category-1.svg"
+                    alt="category1"
+                    className="w-6"
+                  />
+                  <p className="font-bold text-sm text-primary">Fast Food</p>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer shadow py-2 px-3">
-                  <Image width={24} height={50} src="/category-1.svg" alt="category1" className="w-6" />
-                  <p className="font-bold text-sm text-primary">
-                    Fast Food
-                  </p>
+                  <Image
+                    width={24}
+                    height={50}
+                    src="/category-1.svg"
+                    alt="category1"
+                    className="w-6"
+                  />
+                  <p className="font-bold text-sm text-primary">Fast Food</p>
                 </div>
               </div>
             )}
           </div>
-        
-
           <ul className="flex gap-3 xl:gap-6 font-bold text-primary text-base xl:text-lg">
             <li>
               <Link href="/" className="hover:text-brand transition">
@@ -237,8 +273,7 @@ const NavBar = () => {
             </li>
             <li>
               <Link href="/" className="hover:text-brand transition">
-                Vendors 
-
+                Vendors
               </Link>
             </li>
             <li>
@@ -248,12 +283,12 @@ const NavBar = () => {
             </li>
             <li>
               <Link href="/" className="hover:text-brand transition">
-                Blog 
+                Blog
               </Link>
             </li>
             <li>
               <Link href="/" className="hover:text-brand transition">
-                Pages 
+                Pages
               </Link>
             </li>
             <li>

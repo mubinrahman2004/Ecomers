@@ -26,11 +26,11 @@ const Registration = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
-      if (data.errors.length > 0) {
-        data.errors.forEach((error) => {
-          toast.error(data.errors[0]);
-        });}
+     
+
+      if (data.message ===  "Received data is not valid") {
+       return toast.error(data.message);
+      }
       toast.success(data.message);
     } catch (error) {
       console.log(error);
