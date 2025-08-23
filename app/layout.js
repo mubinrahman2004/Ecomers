@@ -6,9 +6,8 @@ import NavBar from "./components/NavBar";
 import "./globals.css";
 
 export default async function RootLayout({ children }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
-  console.log(accessToken);
+  const cookieStore =  await cookies();
+  const accessToken =  cookieStore.get("accessToken")?.value;
   // if (accessToken) {
     const response = await fetch(
       "https://api.freeapi.app/api/v1/ecommerce/profile",

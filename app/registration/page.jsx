@@ -8,7 +8,7 @@ const Registration = () => {
     fullName: "",
     email: "",
     password: "",
-    phone: "",
+    phone: "", 
   });
 
   const handelSubmit = async (e) => {
