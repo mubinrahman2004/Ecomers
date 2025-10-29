@@ -1,6 +1,5 @@
 import React from "react";
 import PopularProductItems from "./PopularProductItems";
-import ProductBaneerItems from "./ProductBaneerItems";
 
 const PopularProduct = () => {
   return (
