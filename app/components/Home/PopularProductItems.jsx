@@ -17,7 +17,7 @@ const PopularProductItems = (data) => {
           width={50}
           height={50}
           layout="responsive"
-          src={data.thumbnail || data.data.thumbnail || productImg}
+          src={data.thumbnail || data.thumbnail || productImg}
           blurDataURL={data.thumbnail || productImg}
           alt="product"
           className="w-full h-full"
@@ -27,7 +27,7 @@ const PopularProductItems = (data) => {
           href="/"
           className="text-primary font-bold text-sm md:text-base hover:text-brand transition-all"
         >
-          {data.data.title || "Chobani Complete Vanilla Greek Yogurt"}
+          {data.title || "Chobani Complete Vanilla Greek Yogurt"}
         </Link>
         <div className="flex gap-3 py-2.5">
           <ul className="flex text-amber-400">
